@@ -19,6 +19,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import AddIcon from '@material-ui/icons/Add'
+import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { CircularProgress, TableFooter } from '@material-ui/core';
@@ -146,17 +148,33 @@ const EnhancedTableToolbar = props => {
       <div className={classes.spacer} />
       <div className={classes.actions}>
         {numSelected > 0 ? (
-          <Tooltip title="Delete">
+          <div style={{display: 'flex'}}>
+            {numSelected === 1 && (
+                <Tooltip title="Editar">
+                <IconButton aria-label="Edit">
+                    <EditIcon />
+                </IconButton>
+                </Tooltip>
+            )}
+            <Tooltip title="Eliminar">
             <IconButton aria-label="Delete">
-              <DeleteIcon />
+                <DeleteIcon />
             </IconButton>
-          </Tooltip>
+            </Tooltip>
+          </div>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
+          <div style={{display: 'flex'}}>
+            <Tooltip title="Agregar">
+            <IconButton aria-label="Add">
+                <AddIcon />
             </IconButton>
-          </Tooltip>
+            </Tooltip>
+            <Tooltip title="Filtrar lista">
+                <IconButton aria-label="Filter list">
+                <FilterListIcon />
+                </IconButton>
+            </Tooltip>
+          </div>  
         )}
       </div>
     </Toolbar>
@@ -248,7 +266,7 @@ const useStyles = makeStyles(theme => ({
   },
   tableWrapper: {
     overflowX: 'auto',
-  },
+  }
 }));
 
 export default function EnhancedTable(props) {
@@ -387,15 +405,15 @@ export default function EnhancedTable(props) {
             </TableBody>
             <TableFooter>
                 <TableRow>
-                    <TablePagination 
+                    <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         count={rows.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         SelectProps={{
-                            inputProps: { 'aria-label': 'Rows per page' },
+                            inputProps: { 'aria-label': 'Rows per pages' },
                             native: false,
-                          }}
+                            }}
                         onChangePage={handleChangePage}
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                         ActionsComponent={TablePaginationActions}
