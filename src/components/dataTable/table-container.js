@@ -1,91 +1,51 @@
-import React, { Component } from "react";
-import MUIDataTable from "mui-datatables";
-import { CircularProgress, Typography } from '@material-ui/core'
-import { read, create, update, remove } from './util/data/data-api'
-import auth from './../../util/auth/auth-helper'
+import React, { Component } from 'react'
+import EnhancedTable from './table'
+import { read } from './util/data/data-api'
 
-class DataTable extends Component {
-  
-  state = {
-    page: 0,
-    count: 1,
-    data: [["Loading Data..."]],
-    isLoading: false
-  }
+const headRows = [
+    { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
+    { id: 'description', numeric: false, disablePadding: false, label: 'Descripción' },
+    { id: 'category', numeric: false, disablePadding: false, label: 'Categoría' },
+    { id: 'company', numeric: false, disablePadding: false, label: 'Marca' },
+    { id: 'image', numeric: false, disablePadding: false, label: 'Imagen' },
+];
 
-  componentDidMount() {
-    this.getData()
-  }
-
-  getData = () => {
-    this.setState({ isLoading: true });
-    this.xhrRequest().then(res => {
-      this.setState({ data: res.data, isLoading: false, count: res.total });
-      console.log(this.state.data)
-    });
-  }
-
-  xhrRequest = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        read().then(result => {
-          resolve({
-            data: result,
-            total: result.length
-          });
+class Table extends Component {
+    state = {
+        data: [],
+        isLoading: false
+    }
+    
+    componentDidMount() {
+        this.setState({ isLoading: true })
+        this.getData().then(res => {
+            this.setState({ data: res, isLoading: false })
         })
-      }, 1000);
-    });
-  }
-
-  changePage = (page) => {
-    this.setState({
-      isLoading: true,
-    });
-    this.xhrRequest(`/myApiServer?page=${page}`).then(res => {
-      this.setState({
-        isLoading: false,
-        page: page,
-        data: res.data,
-        count: res.total,
-      });
-    });
-  };
-
-  render() {
-    const columns = ["name", "description", "category", "company", "image"]
-    const { data, page, count, isLoading } = this.state
-
-    const options = {
-      filter: true,
-      filterType: 'dropdown',
-      responsive: 'stacked',
-      serverSide: true,
-      count: count,
-      page: page,
-      selectableRows: 'single',
-      onTableChange: (action, tableState) => {
-        console.log(action, tableState)
-
-        switch (action) {
-          case 'changePage':
-            this.changePage(tableState.page)
-            break
-        }
-      }
+    }
+    
+    getData = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                read().then(result => {
+                    resolve(
+                        result
+                    )
+                })
+            }, 1000)
+        })
     }
 
-    return (
-      <div>
-        <MUIDataTable title={<Typography variant="h6">
-          H&#38;R Lista de productos
-          {isLoading && <CircularProgress size={24} style={{ marginLeft: 15, position: 'relative', top: 4 }} />}
-          </Typography>
-          } data={data} columns={columns} options={options}
-        />
-      </div>
-    )
-  }
+    render() {
+        const { data, isLoading } = this.state
+
+        return (
+            <EnhancedTable 
+                headRows={headRows}
+                data={data}
+                isLoading={isLoading}
+            />
+        )
+    }
 }
 
-export default DataTable
+export default Table
