@@ -19,11 +19,22 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import AddIcon from '@material-ui/icons/Add'
+import AddIcon from '@material-ui/icons/AddBox'
 import EditIcon from '@material-ui/icons/Edit'
+import CheckIcon from '@material-ui/icons/Check'
+import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { CircularProgress, TableFooter } from '@material-ui/core';
+import { CircularProgress, TableFooter, TextField } from '@material-ui/core';
+import Dialog from '../alert/index'
+
+const headRows = [
+  { id: 'name', numeric: false, disablePadding: false, label: 'Nombre' },
+  { id: 'description', numeric: false, disablePadding: false, label: 'Descripción' },
+  { id: 'category', numeric: false, disablePadding: false, label: 'Categoría' },
+  { id: 'company', numeric: false, disablePadding: false, label: 'Marca' },
+  { id: 'image', numeric: false, disablePadding: false, label: 'Imagen' },
+];
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -50,7 +61,7 @@ function getSorting(order, orderBy) {
 }
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headRows, isLoading } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -58,12 +69,8 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            checked={numSelected === rowCount && !isLoading}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'Select all desserts' }}
-          />
+        <TableCell>
+          Opciones
         </TableCell>
         {headRows.map(row => (
           <TableCell
@@ -93,8 +100,6 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
-  headRows: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired
 };
 
 const useToolbarStyles = makeStyles(theme => ({
@@ -136,7 +141,7 @@ const EnhancedTableToolbar = props => {
       <div className={classes.title}>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
+            {numSelected} seleccionado(s)
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
@@ -147,34 +152,27 @@ const EnhancedTableToolbar = props => {
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>
-        {numSelected > 0 ? (
+        {numSelected > 0  ? (
           <div style={{display: 'flex'}}>
-            {numSelected === 1 && (
-                <Tooltip title="Editar">
-                <IconButton aria-label="Edit">
-                    <EditIcon />
-                </IconButton>
-                </Tooltip>
-            )}
-            <Tooltip title="Eliminar">
-            <IconButton aria-label="Delete">
-                <DeleteIcon />
+            <Tooltip title="Cancelar">
+            <IconButton aria-label="Close">
+                <CloseIcon />
             </IconButton>
             </Tooltip>
           </div>
         ) : (
           <div style={{display: 'flex'}}>
-            <Tooltip title="Agregar">
-            <IconButton aria-label="Add">
+            <Tooltip title="Nuevo">
+            <IconButton aria-label="New">
                 <AddIcon />
             </IconButton>
             </Tooltip>
-            <Tooltip title="Filtrar lista">
-                <IconButton aria-label="Filter list">
+            <Tooltip title="Filtrar">
+            <IconButton aria-label="Filter">
                 <FilterListIcon />
-                </IconButton>
+            </IconButton>
             </Tooltip>
-          </div>  
+          </div>
         )}
       </div>
     </Toolbar>
@@ -183,7 +181,7 @@ const EnhancedTableToolbar = props => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
 };
 
 const usePaginationStyles = makeStyles(theme => ({
@@ -252,6 +250,41 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
+function TableEditActions(props) {
+
+  return (
+    <TableRow>
+        <TableCell style={{display: 'flex'}}>
+          <Tooltip title="Aceptar">
+            <IconButton aria-label="Accept">
+                <CheckIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Canelar">
+            <IconButton aria-label="Cancel">
+                <CloseIcon />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+        <TableCell>
+          <TextField />
+        </TableCell>
+        <TableCell>
+          <TextField />
+        </TableCell>
+        <TableCell>
+          <TextField />
+        </TableCell>
+        <TableCell>
+          <TextField />
+        </TableCell>
+        <TableCell>
+          <TextField />
+        </TableCell>
+    </TableRow>
+  )
+}
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -270,15 +303,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function EnhancedTable(props) {
-  const { headRows, data, isLoading } = props
+  const { rows, isLoading, handleDeleteClick } = props
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const rows = data
+  const [open, setOpen] = React.useState(false)
 
   function handleRequestSort(event, property) {
     const isDesc = orderBy === property && order === 'desc';
@@ -324,6 +356,17 @@ export default function EnhancedTable(props) {
     handleChangePage(event, 0)
   }
 
+  function handleClickOpen() {
+    setOpen(true)
+  }
+
+  function handleClose(confirm) {
+    if (confirm) {
+      handleDeleteClick(selected, setSelected)
+    }
+    setOpen(false)
+  }
+
   const isSelected = id => selected.indexOf(id) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -331,12 +374,15 @@ export default function EnhancedTable(props) {
   return (
       <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} isLoading={isLoading} />
+        <EnhancedTableToolbar 
+          numSelected={selected.length}
+          isLoading={isLoading}
+        />
         <div className={classes.tableWrapper}>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size='medium'
+            size='small'
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -345,7 +391,6 @@ export default function EnhancedTable(props) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-              headRows={headRows}
               isLoading={isLoading}
             />
             <TableBody>
@@ -365,13 +410,21 @@ export default function EnhancedTable(props) {
                       key={index}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
+                      <TableCell padding="none" style={{padding: "0px 5px"}}>
+                        <div style={{display: 'flex'}}>
+                          <Tooltip title="Editar">
+                          <IconButton aria-label="Edit">
+                              <EditIcon />
+                          </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Eliminar">
+                          <IconButton aria-label="Delete">
+                              <DeleteIcon />
+                          </IconButton>
+                          </Tooltip>
+                        </div>
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                      <TableCell component="th" id={labelId} scope="row">
                         <Typography variant="subtitle1" noWrap={true} >
                             {row.name}
                         </Typography>
@@ -399,7 +452,7 @@ export default function EnhancedTable(props) {
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 70 * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={headRows.length + 1} />
                 </TableRow>
               )}
             </TableBody>
@@ -410,8 +463,9 @@ export default function EnhancedTable(props) {
                         count={rows.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
+                        labelRowsPerPage="Resultados por página:"
                         SelectProps={{
-                            inputProps: { 'aria-label': 'Rows per pages' },
+                            inputProps: { 'aria-label': 'Resultados por página' },
                             native: false,
                             }}
                         onChangePage={handleChangePage}
@@ -422,13 +476,18 @@ export default function EnhancedTable(props) {
             </TableFooter>
           </Table>
         </div>
+        <Dialog
+          open={open}
+          handleClose={handleClose}
+          selected={selected}
+        />
       </Paper>
     </div>
   );
 }
 
 EnhancedTable.propTypes = {
-    headRows: PropTypes.array.isRequired,
-    data: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    rows: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    handleDeleteClick: PropTypes.func.isRequired
 }

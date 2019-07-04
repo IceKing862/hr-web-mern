@@ -52,7 +52,9 @@ const remove = (token, productId) => {
         }
     }).then(response => {
         return response.json()
-    }).catch(err => console.log(err))
+    }).catch(err => {
+        return { error: err }
+    })
 }
 
 export { create, read, readOne, update, remove }
