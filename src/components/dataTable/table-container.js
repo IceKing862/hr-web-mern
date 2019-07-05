@@ -33,36 +33,33 @@ class Table extends Component {
         })
     }
 
-    handleDeleteClick = (selected, cb) => {
+    handleDeleteClick = (id) => {
         return new Promise((resolve, reject) => {
             const token = auth.isAuthenticated()
             setTimeout(() => {
-                selected.map(item => remove(token, item).then(res => 
-                    {               
-                        if (res.error) {
-                            this.props.enqueueSnackbar('Fallo al eliminar producto', {
-                                anchorOrigin: {
-                                    vertical: 'bottom',
-                                    horizontal: 'right',
-                                },
-                                variant: 'error'
-                            })
-                        } else {
-                            this.props.enqueueSnackbar('El producto se elimino', {
-                                anchorOrigin: {
-                                    vertical: 'bottom',
-                                    horizontal: 'right',
-                                },
-                                variant: 'success'
-                            })
-                        }
-                    }))
-                    this.setState({ isLoading: true })
-                    this.getData().then(res => {
-                        this.setState({ data: res, isLoading: false })
-                    })
-                    cb([])
+                remove(token, id).then(res => {
+                    if (res.error) {
+                        this.notification('Fallo al eliminar producto', 'error')
+                    } else {
+                        this.notification('El Producto se elimino correctamente', 'success')
+                        this.setState({ isLoading: true })
+                        this.getData().then(res => {
+                            this.setState({ data: res, isLoading: false })
+                        })
+                    }
+                })
+                resolve()
             }, 1000)
+        })
+    }
+
+    notification(message, variant) {
+        this.props.enqueueSnackbar(message, {
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'right',
+            },
+            variant: variant
         })
     }
 

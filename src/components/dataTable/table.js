@@ -12,7 +12,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -26,7 +25,6 @@ import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { CircularProgress, TableFooter, TextField } from '@material-ui/core';
-import Dialog from '../alert/index'
 
 const headRows = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Nombre' },
@@ -61,7 +59,7 @@ function getSorting(order, orderBy) {
 }
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -94,9 +92,7 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -180,7 +176,6 @@ const EnhancedTableToolbar = props => {
 };
 
 EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 
@@ -241,7 +236,7 @@ function TablePaginationActions(props) {
           </IconButton>
         </div>
     );
-}
+};
 
 TablePaginationActions.propTypes = {
     count: PropTypes.number.isRequired,
@@ -250,39 +245,137 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-function TableEditActions(props) {
+function EnhancedTableRow(props) {
+  const { row, index, labelId, handleActionClick } = props
+
+  return (
+    <TableRow
+      tabIndex={-1}
+      key={index}
+    >
+      <TableCell padding="none" style={{padding: "0px 5px"}}>
+        <div style={{display: 'flex'}}>
+          <Tooltip title="Editar">
+          <IconButton aria-label="Edit" onClick={() => handleActionClick('edit', row._id)}>
+              <EditIcon />
+          </IconButton>
+          </Tooltip>
+          <Tooltip title="Eliminar">
+          <IconButton aria-label="Delete" onClick={() => handleActionClick('delete', row._id)}>
+              <DeleteIcon />
+          </IconButton>
+          </Tooltip>
+        </div>
+      </TableCell>
+      <TableCell component="th" id={labelId} scope="row">
+        <Typography variant="subtitle1" noWrap={true} >
+            {row.name}
+        </Typography>
+      </TableCell>
+      <TableCell align="left">
+        <Typography variant="subtitle1" noWrap={true} >
+            {row.description}
+        </Typography>
+      </TableCell>
+      <TableCell align="left">
+        <Typography variant="subtitle1" noWrap={true} >
+            {row.category}
+        </Typography>
+      </TableCell>
+      <TableCell align="left">
+        <Typography variant="subtitle1" noWrap={true} >
+            {row.company}
+        </Typography>
+      </TableCell>
+      <TableCell align="left">
+        <img src={`http://localhost:3000/${row.image}`} height="36px" alt={row.name} />
+      </TableCell>
+    </TableRow>
+  )
+}
+
+EnhancedTableRow.propTypes = {
+  row: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  labelId: PropTypes.string.isRequired,
+  handleActionClick: PropTypes.func.isRequired,
+}
+
+function EnhancedTableRowEdit(props) {
+  const { id, handleActionClick } = props
 
   return (
     <TableRow>
-        <TableCell style={{display: 'flex'}}>
-          <Tooltip title="Aceptar">
-            <IconButton aria-label="Accept">
-                <CheckIcon />
-            </IconButton>
+      <TableCell padding="none" style={{padding: "0px 5px"}}>
+        <div style={{ display: 'flex', alignContent: 'center' }}>
+          <Tooltip title="Guardar">
+          <IconButton aria-label="Save" onClick={() => console.log('actualiza !!')}>
+              <CheckIcon />
+          </IconButton>
           </Tooltip>
-          <Tooltip title="Canelar">
-            <IconButton aria-label="Cancel">
-                <CloseIcon />
-            </IconButton>
+          <Tooltip title="Cancelar">
+          <IconButton aria-label="Cancel" onClick={() => handleActionClick()}>
+              <CloseIcon />
+          </IconButton>
           </Tooltip>
-        </TableCell>
-        <TableCell>
-          <TextField />
-        </TableCell>
-        <TableCell>
-          <TextField />
-        </TableCell>
-        <TableCell>
-          <TextField />
-        </TableCell>
-        <TableCell>
-          <TextField />
-        </TableCell>
-        <TableCell>
-          <TextField />
-        </TableCell>
+        </div>
+      </TableCell>
+      <TableCell>
+        <TextField />
+      </TableCell>
+      <TableCell>
+        <TextField />
+      </TableCell>
+      <TableCell>
+        <TextField />
+      </TableCell>
+      <TableCell>
+        <TextField />
+      </TableCell>
+      <TableCell>
+        <TextField />
+      </TableCell>
     </TableRow>
   )
+};
+
+EnhancedTableRowEdit.propTypes = {
+  id: PropTypes.string.isRequired,
+  handleActionClick: PropTypes.func.isRequired,
+}
+
+function EnhancedTableRowDelete(props) {
+  const { id, handleActionClick, handleDeleteClick } = props
+
+  return (
+    <TableRow style={{ height: '54px' }}>
+      <TableCell padding="none" style={{padding: "0px 5px"}}>
+        <div style={{ display: 'flex', alignContent: 'center' }}>
+          <Tooltip title="Guardar">
+          <IconButton aria-label="Save" onClick={() => handleDeleteClick(id)}>
+              <CheckIcon />
+          </IconButton>
+          </Tooltip>
+          <Tooltip title="Cancelar">
+          <IconButton aria-label="Cancel" onClick={() => handleActionClick()}>
+              <CloseIcon />
+          </IconButton>
+          </Tooltip>
+        </div>
+      </TableCell>
+      <TableCell colSpan="6">
+        <Typography variant="h6">
+          ¿Estas seguro papu?
+        </Typography>
+      </TableCell>
+    </TableRow>
+  )
+}
+
+EnhancedTableRowDelete.propTypes = {
+  id: PropTypes.string.isRequired,
+  handleActionClick: PropTypes.func.isRequired,
+  handleDeleteClick: PropTypes.func.isRequired,
 }
 
 const useStyles = makeStyles(theme => ({
@@ -307,44 +400,14 @@ export default function EnhancedTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
-  const [selected, setSelected] = React.useState([]);
+  const [selected, setSelected] = React.useState({ action: 'read', id: '' })
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [open, setOpen] = React.useState(false)
 
   function handleRequestSort(event, property) {
     const isDesc = orderBy === property && order === 'desc';
     setOrder(isDesc ? 'asc' : 'desc');
     setOrderBy(property);
-  }
-
-  function handleSelectAllClick(event) {
-    if (event.target.checked) {
-      const newSelecteds = rows.map(n => n._id);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  }
-
-  function handleClick(event, id) {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
   }
 
   function handleChangePage(event, newPage) {
@@ -356,26 +419,27 @@ export default function EnhancedTable(props) {
     handleChangePage(event, 0)
   }
 
-  function handleClickOpen() {
-    setOpen(true)
-  }
+  function handleActionClick(action = 'read', id= '') {
+    switch (action) {
+      case 'delete':
+        setSelected({ action: 'delete', id: id })
+        break;
+      case 'edit':
+        setSelected({ action: 'edit', id: id })
+        break;
 
-  function handleClose(confirm) {
-    if (confirm) {
-      handleDeleteClick(selected, setSelected)
+      default:
+          setSelected({ action: 'read', id: id })
+        break;
     }
-    setOpen(false)
   }
-
-  const isSelected = id => selected.indexOf(id) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
       <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar 
-          numSelected={selected.length}
+        <EnhancedTableToolbar
           isLoading={isLoading}
         />
         <div className={classes.tableWrapper}>
@@ -385,10 +449,8 @@ export default function EnhancedTable(props) {
             size='small'
           >
             <EnhancedTableHead
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
               isLoading={isLoading}
@@ -397,61 +459,35 @@ export default function EnhancedTable(props) {
               {stableSort(rows, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row._id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
-                      hover
-                      onClick={event => handleClick(event, row._id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={index}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="none" style={{padding: "0px 5px"}}>
-                        <div style={{display: 'flex'}}>
-                          <Tooltip title="Editar">
-                          <IconButton aria-label="Edit">
-                              <EditIcon />
-                          </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Eliminar">
-                          <IconButton aria-label="Delete">
-                              <DeleteIcon />
-                          </IconButton>
-                          </Tooltip>
-                        </div>
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row">
-                        <Typography variant="subtitle1" noWrap={true} >
-                            {row.name}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Typography variant="subtitle1" noWrap={true} >
-                            {row.description}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Typography variant="subtitle1" noWrap={true} >
-                            {row.category}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Typography variant="subtitle1" noWrap={true} >
-                            {row.company}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="left">
-                        <img src={`http://localhost:3000/${row.image}`} height="36px" alt={row.name} />
-                      </TableCell>
-                    </TableRow>
+                    <React.Fragment key={index}>
+                      {(selected.action === 'delete' && selected.id === row._id) ? (
+                          <EnhancedTableRowDelete
+                            id={row._id}
+                            handleActionClick={handleActionClick}
+                            handleDeleteClick={handleDeleteClick}
+                          />
+                        ) : (selected.action === 'edit' && selected.id === row._id) ? (
+                          <EnhancedTableRowEdit
+                            id={row._id}
+                            handleActionClick={handleActionClick}
+                          />
+                        ) : (
+                          <EnhancedTableRow
+                            row={row}
+                            index={index}
+                            labelId={labelId}
+                            handleActionClick={handleActionClick}
+                          />
+                        )
+                      }
+                    </React.Fragment>                   
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: 70 * emptyRows }}>
+                <TableRow style={{ height: 54 * emptyRows }}>
                   <TableCell colSpan={headRows.length + 1} />
                 </TableRow>
               )}
@@ -476,11 +512,6 @@ export default function EnhancedTable(props) {
             </TableFooter>
           </Table>
         </div>
-        <Dialog
-          open={open}
-          handleClose={handleClose}
-          selected={selected}
-        />
       </Paper>
     </div>
   );
