@@ -126,50 +126,32 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
-  const { numSelected, isLoading } = props;
+  const { isLoading, handleActionClick } = props;
 
   return (
     <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
+      className={clsx(classes.root)}
     >
       <div className={classes.title}>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} seleccionado(s)
-          </Typography>
-        ) : (
-          <Typography variant="h6" id="tableTitle">
-            H&#38;R productos
-            {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
-          </Typography>
-        )}
+        <Typography variant="h6" id="tableTitle">
+          H&#38;R productos
+          {isLoading && <CircularProgress size={24} style={{marginLeft: 15, position: 'relative', top: 4}} />}
+        </Typography>
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>
-        {numSelected > 0  ? (
-          <div style={{display: 'flex'}}>
-            <Tooltip title="Cancelar">
-            <IconButton aria-label="Close">
-                <CloseIcon />
-            </IconButton>
-            </Tooltip>
-          </div>
-        ) : (
-          <div style={{display: 'flex'}}>
-            <Tooltip title="Nuevo">
-            <IconButton aria-label="New">
-                <AddIcon />
-            </IconButton>
-            </Tooltip>
-            <Tooltip title="Filtrar">
-            <IconButton aria-label="Filter">
-                <FilterListIcon />
-            </IconButton>
-            </Tooltip>
-          </div>
-        )}
+        <div style={{display: 'flex'}}>
+          <Tooltip title="Nuevo">
+          <IconButton aria-label="New" onClick={() => handleActionClick('create')}>
+              <AddIcon />
+          </IconButton>
+          </Tooltip>
+          <Tooltip title="Filtrar">
+          <IconButton aria-label="Filter">
+              <FilterListIcon />
+          </IconButton>
+          </Tooltip>
+        </div>
       </div>
     </Toolbar>
   );
@@ -301,15 +283,26 @@ EnhancedTableRow.propTypes = {
   handleActionClick: PropTypes.func.isRequired,
 }
 
-function EnhancedTableRowEdit(props) {
-  const { id, handleActionClick } = props
+function EnhancedTableRowCreate(props) {
+  const { handleActionClick, handleCreateClick } = props
+  const [values, setValues] = React.useState({
+    name: '',
+    description: '',
+    category: '',
+    company: '',
+    image: ''
+  })
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value })
+  }
 
   return (
-    <TableRow>
+    <TableRow style={{ height: '57px' }}>
       <TableCell padding="none" style={{padding: "0px 5px"}}>
         <div style={{ display: 'flex', alignContent: 'center' }}>
           <Tooltip title="Guardar">
-          <IconButton aria-label="Save" onClick={() => console.log('actualiza !!')}>
+          <IconButton aria-label="Save" onClick={() => handleCreateClick(values)}>
               <CheckIcon />
           </IconButton>
           </Tooltip>
@@ -321,27 +314,111 @@ function EnhancedTableRowEdit(props) {
         </div>
       </TableCell>
       <TableCell>
-        <TextField />
+        <TextField
+          value={values.name}
+          onChange={handleChange('name')}
+          margin="normal"
+        />
       </TableCell>
       <TableCell>
-        <TextField />
+        <TextField
+          value={values.description}
+          onChange={handleChange('description')}
+          margin="normal"
+        />
       </TableCell>
       <TableCell>
-        <TextField />
+        <TextField
+          value={values.category}
+          onChange={handleChange('category')}
+          margin="normal"
+        />
       </TableCell>
       <TableCell>
-        <TextField />
+        <TextField
+          value={values.company}
+          onChange={handleChange('company')}
+          margin="normal"
+        />
       </TableCell>
       <TableCell>
-        <TextField />
+        <TextField
+          value={values.image}
+          onChange={handleChange('image')}
+          margin="normal"
+        />
+      </TableCell>
+    </TableRow>
+  )
+}
+
+function EnhancedTableRowEdit(props) {
+  const { row, handleActionClick, handleUpdateClick } = props
+  const [values, setValues] = React.useState({ ...row })
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value })
+  }
+
+  return (
+    <TableRow style={{ height: '57px' }}>
+      <TableCell padding="none" style={{padding: "0px 5px"}}>
+        <div style={{ display: 'flex', alignContent: 'center' }}>
+          <Tooltip title="Guardar">
+          <IconButton aria-label="Save" onClick={() => handleUpdateClick(values, row._id)}>
+              <CheckIcon />
+          </IconButton>
+          </Tooltip>
+          <Tooltip title="Cancelar">
+          <IconButton aria-label="Cancel" onClick={() => handleActionClick()}>
+              <CloseIcon />
+          </IconButton>
+          </Tooltip>
+        </div>
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={values.name}
+          onChange={handleChange('name')}
+          margin="normal"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={values.description}
+          onChange={handleChange('description')}
+          margin="normal"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={values.category}
+          onChange={handleChange('category')}
+          margin="normal"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={values.company}
+          onChange={handleChange('company')}
+          margin="normal"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={values.image}
+          onChange={handleChange('image')}
+          margin="normal"
+        />
       </TableCell>
     </TableRow>
   )
 };
 
 EnhancedTableRowEdit.propTypes = {
-  id: PropTypes.string.isRequired,
+  row: PropTypes.object.isRequired,
   handleActionClick: PropTypes.func.isRequired,
+  handleUpdateClick: PropTypes.func.isRequired,
 }
 
 function EnhancedTableRowDelete(props) {
@@ -396,11 +473,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function EnhancedTable(props) {
-  const { rows, isLoading, handleDeleteClick } = props
+  const { rows, isLoading, selected, handleActionClick, handleDeleteClick, handleUpdateClick, handleCreateClick } = props
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
-  const [selected, setSelected] = React.useState({ action: 'read', id: '' })
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -419,21 +495,6 @@ export default function EnhancedTable(props) {
     handleChangePage(event, 0)
   }
 
-  function handleActionClick(action = 'read', id= '') {
-    switch (action) {
-      case 'delete':
-        setSelected({ action: 'delete', id: id })
-        break;
-      case 'edit':
-        setSelected({ action: 'edit', id: id })
-        break;
-
-      default:
-          setSelected({ action: 'read', id: id })
-        break;
-    }
-  }
-
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
@@ -441,6 +502,7 @@ export default function EnhancedTable(props) {
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
           isLoading={isLoading}
+          handleActionClick={handleActionClick}
         />
         <div className={classes.tableWrapper}>
           <Table
@@ -471,8 +533,9 @@ export default function EnhancedTable(props) {
                           />
                         ) : (selected.action === 'edit' && selected.id === row._id) ? (
                           <EnhancedTableRowEdit
-                            id={row._id}
+                            row={row}
                             handleActionClick={handleActionClick}
+                            handleUpdateClick={handleUpdateClick}
                           />
                         ) : (
                           <EnhancedTableRow
@@ -486,6 +549,12 @@ export default function EnhancedTable(props) {
                     </React.Fragment>                   
                   );
                 })}
+              {selected.action === 'create' && 
+                <EnhancedTableRowCreate
+                  handleActionClick={handleActionClick}
+                  handleCreateClick={handleCreateClick}
+                />
+              }
               {emptyRows > 0 && (
                 <TableRow style={{ height: 54 * emptyRows }}>
                   <TableCell colSpan={headRows.length + 1} />

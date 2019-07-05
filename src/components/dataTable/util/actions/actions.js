@@ -1,4 +1,4 @@
-const create = (user, token) => {
+const create = (product, token) => {
     return fetch('http://localhost:3000/products', {
         method: 'POST',
         headers: {
@@ -6,7 +6,7 @@ const create = (user, token) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(product)
     }).then(response => {
         return response.json()
     }).catch(err => console.log(err))
@@ -28,7 +28,7 @@ const readOne = (productId) => {
     }).catch(err => console.log(err))
 }
 
-const update = (user, token, productId) => {
+const update = (product, token, productId) => {
     return fetch('http://localhost:3000/products/' + productId, {
         method: 'PATCH',
         headers: {
@@ -36,10 +36,12 @@ const update = (user, token, productId) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(product)
     }).then(response => {
         return response.json()
-    }).catch(err => console.log(err))
+    }).catch(err => {
+        return { error: err }
+    })
 }
 
 const remove = (token, productId) => {

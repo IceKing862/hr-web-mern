@@ -1,20 +1,37 @@
 import React, { Component } from 'react'
 import EnhancedTable from './table'
 import { withSnackbar } from 'notistack';
-import { read, remove } from './util/actions/actions'
+import { create, read, remove, update } from './util/actions/actions'
 import auth from './../../util/auth/auth-helper'
+
+function notification(message, variant) {
+    this.props.enqueueSnackbar(message, {
+        anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'right',
+        },
+        variant: variant
+    })
+}
+
+function productFormater(product) {
+    return [
+        { "propName": "name", "value": product.name },
+        { "propName": "description", "value": product.description },
+        { "propName": "category", "value": product.category },
+        { "propName": "company", "value": product.company },
+    ]
+}
 
 class Table extends Component {
     state = {
         data: [],
-        isLoading: false
+        isLoading: false,
+        selected: { action: 'read', id: '0' }
     }
     
     componentDidMount() {
-        this.setState({ isLoading: true })
-        this.getData().then(res => {
-            this.setState({ data: res, isLoading: false })
-        })
+        this.getData()
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -22,14 +39,24 @@ class Table extends Component {
     }
     
     getData = () => {
+        this.setState({ isLoading: true })
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 read().then(result => {
                     resolve(
-                        result
+                        this.setState({ data: result, isLoading: false })
                     )
                 })
             }, 1000)
+        })
+    }
+
+    handleCreateClick = product => {
+        return new Promise((revolve, reject) => {
+            const token = auth.isAuthenticated()
+            setTimeout(() => {
+                create(product, token)
+            })
         })
     }
 
@@ -39,13 +66,11 @@ class Table extends Component {
             setTimeout(() => {
                 remove(token, id).then(res => {
                     if (res.error) {
-                        this.notification('Fallo al eliminar producto', 'error')
+                        notification('Fallo al eliminar producto', 'error')
+                        this.handleActionClick()
                     } else {
-                        this.notification('El Producto se elimino correctamente', 'success')
-                        this.setState({ isLoading: true })
-                        this.getData().then(res => {
-                            this.setState({ data: res, isLoading: false })
-                        })
+                        notification('El Producto se elimino correctamente', 'success')
+                        this.getData()
                     }
                 })
                 resolve()
@@ -53,24 +78,54 @@ class Table extends Component {
         })
     }
 
-    notification(message, variant) {
-        this.props.enqueueSnackbar(message, {
-            anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'right',
-            },
-            variant: variant
+    handleUpdateClick = (product, id) => {
+        return new Promise((resolve, reject) => {
+            const token = auth.isAuthenticated()
+            const newProduct = productFormater(product)
+            setTimeout(() => {
+                update(newProduct, token, id).then(res => {
+                    if (res.error) {
+                        notification('Fallo al actualizar producto', 'error')
+                    } else {
+                        notification('El Producto se actualizo correctamente', 'success')
+                        this.getData()
+                    }
+                })
+            }, 1000)
         })
     }
 
-    render() {
-        const { data, isLoading } = this.state
+    
+    handleActionClick(action = 'read', id= '') {
+        const { selected } = this.state
+        switch (action) {
+        case 'delete':
+            console.log(selected)
+            break;
+        case 'edit':
+            this.setState({ selected: { action: 'edit', id: id } })
+            break;
+        case 'create':
+            this.setState({ selected: { action: 'create', id: id } })
+            break;
 
+            default:
+            this.setState({ selected: { action: 'read', id: id } })
+            break;
+        }
+    }
+
+    render() {
+        const { data, isLoading, selected } = this.state
         return (
             <EnhancedTable
                 rows={data}
                 isLoading={isLoading}
+                selected={selected}
+                handleActionClick={this.handleActionClick}
                 handleDeleteClick={this.handleDeleteClick}
+                handleUpdateClick={this.handleUpdateClick}
+                handleCreateClick={this.handleCreateClick}
             />
         )
     }
