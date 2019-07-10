@@ -1,1 +1,1 @@
-export { default } from './table-container'
+export { default } from './enhancedTable-container'
