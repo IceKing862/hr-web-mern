@@ -8,21 +8,21 @@ import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 
 export default function TableRowActions(props) {
-    const { row, selected, handleChangeSelected } = props
-    let current = (selected.action === 'deleting') ? 'delete' : (selected.action === 'editing') ? 'edit' : ''
+    const { index, row, selected, handleChangeSelected } = props
+    let currentOP = (selected.action === 'deleting') ? 'delete' : (selected.action === 'editing') ? 'edit' : 'create'
 
     return (
         <div style={{display: 'flex'}}>
-            {(selected.action !== 'reading' && selected.id === row._id) ?
+            {((selected.action !== 'reading' && selected.id === row._id) || index === -1) ?
             (
                 <React.Fragment>
                     <Tooltip title="Guardar">
-                    <IconButton aria-label="Save" onClick={() => handleChangeSelected('saving', row._id, current, row)}>
+                    <IconButton aria-label="Save" onClick={() => handleChangeSelected('saving', row._id, currentOP, row)}>
                         <CheckIcon />
                     </IconButton>
                     </Tooltip>
                     <Tooltip title="Cancelar">
-                    <IconButton aria-label="cancel" onClick={() => handleChangeSelected()}>
+                    <IconButton aria-label="cancel" onClick={() => handleChangeSelected(null, '0')}>
                         <CloseIcon />
                     </IconButton>
                     </Tooltip>
@@ -46,6 +46,7 @@ export default function TableRowActions(props) {
 }
 
 TableRowActions.propTypes = {
+    row: PropTypes.object.isRequired,
     selected: PropTypes.object.isRequired,
     handleChangeSelected: PropTypes.func.isRequired,
 }

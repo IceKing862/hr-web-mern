@@ -582,6 +582,7 @@ export default function EnhancedTable(props) {
           </Table>
         </div>
       </Paper>
+      <div className={classes.loading}></div>
     </div>
   );
 }

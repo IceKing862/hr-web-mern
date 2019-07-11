@@ -34,8 +34,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
   
-export default function EnhancedTableToolbar() {
+export default function EnhancedTableToolbar(props) {
     const classes = useStyles();
+    const { handleChangeSelected } = props
 
     return (
         <Toolbar
@@ -50,7 +51,7 @@ export default function EnhancedTableToolbar() {
         <div className={classes.actions}>
             <div style={{display: 'flex'}}>
             <Tooltip title="Nuevo">
-            <IconButton aria-label="New">
+            <IconButton aria-label="New" onClick={() => handleChangeSelected('creating')}>
                 <AddIcon />
             </IconButton>
             </Tooltip>

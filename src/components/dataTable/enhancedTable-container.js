@@ -53,7 +53,7 @@ class Table extends Component {
         page: 0,
         rowsPerPage: 5,
         isLoading: false,
-        selected: { action: 'reading', id: '0' }
+        selected: { action: 'reading', id: '' }
     }
     
     constructor(props) {
@@ -76,7 +76,7 @@ class Table extends Component {
         const isDesc = this.state.orderBy === property && this.state.order === 'desc';
         this.setState({ order: isDesc ? 'asc' : 'desc' });
         this.setState({ orderBy: property })
-      }
+    }
 
     handleChangePage(event, newPage) {
         this.setState({ page: newPage })
@@ -87,23 +87,25 @@ class Table extends Component {
         this.handleChangePage(event, 0)
     }
 
-    handleChangeSelected(action = 'reading', id = null, op = null, obj = null) {
+    handleChangeSelected(action = 'reading', id = '', op = null, obj = null) {
         if (action === 'deleting') {
+            this.setState({ selected: { action: action, id: id } })
+        } else if (action === 'creating') {
             this.setState({ selected: { action: action, id: id } })
         } else if (action === 'editing') {
             this.setState({ selected: { action: action, id: id } })
         } else if (action === 'saving') {
             if (op === 'delete') {
-                this.handleDeleteClick(id).then(() => this.setState({ selected: { action: 'reading', id: null } }))
+                this.handleDeleteClick(id)
             } else if (op === 'edit') {
-                this.handleUpdateClick(obj, id).then(() => this.setState({ selected: { action: 'reading', id: null } }))
-            } else if (op === 'add') {
-                this.handleCreateClick(obj).then(() => this.setState({ selected: { action: 'reading', id: null } }))
+                this.handleUpdateClick(obj, id)
+            } else if (op === 'create') {
+                this.handleCreateClick(obj)
             } else {
-                this.handleUpdateClick(this.setState({ selected: { action: 'reading', id: null } })) 
+                this.setState({ selected: { action: 'reading', id: '' } })
             }
         } else {
-            this.setState({ selected: { action: action, id: id } })
+            this.setState({ selected: { action: 'reading', id: '' } })
         }
     }
     
@@ -131,11 +133,24 @@ class Table extends Component {
     }
 
     handleCreateClick = product => {
-        return new Promise((revolve, reject) => {
+        return new Promise((resolve, reject) => {
             const token = auth.isAuthenticated()
             setTimeout(() => {
-                create(product, token)
-            })
+                create(product, token).then(res => {
+                    if (res.error) {
+                        this.getData().then(() => {
+                            this.notification('Fallo al crear producto', 'error')
+                            this.setState({ selected: { action: 'reading', id: '' } })
+                        })
+                    } else {
+                        this.getData().then(() => {
+                            this.notification('El Producto se creo correctamente', 'success')
+                            this.setState({ selected: { action: 'reading', id: '' } })
+                        })
+                    }
+                })
+                resolve()
+            }, 500)
         })
     }
 
@@ -145,13 +160,19 @@ class Table extends Component {
             setTimeout(() => {
                 remove(token, id).then(res => {
                     if (res.error) {
-                        this.getData().then(() => this.notification('Fallo al eliminar producto', 'error'))
+                        this.getData().then(() => {
+                            this.notification('Fallo al eliminar producto', 'error')
+                            this.setState({ selected: { action: 'reading', id: '' } })
+                        })
                     } else {
-                        this.getData().then(() => this.notification('El Producto se elimino correctamente', 'success'))
+                        this.getData().then(() => {
+                            this.notification('El Producto se elimino correctamente', 'success')
+                            this.setState({ selected: { action: 'reading', id: '' } })
+                        })
                     }
                 })
                 resolve()
-            }, 1000)
+            }, 500)
         })
     }
 
@@ -162,13 +183,19 @@ class Table extends Component {
             setTimeout(() => {
                 update(newProduct, token, id).then(res => {
                     if (res.error) {
-                        this.notification('Fallo al actualizar producto', 'error')
+                        this.getData().then(() => {
+                            this.notification('Fallo al actualizar producto', 'error')
+                            this.setState({ selected: { action: 'reading', id: '' } })
+                        })
                     } else {
-                        this.notification('El Producto se actualizo correctamente', 'success')
-                        this.getData()
+                        this.getData().then(() => {
+                            this.notification('El Producto se actualizo correctamente', 'success')
+                            this.setState({ selected: { action: 'reading', id: '' } })
+                        })
                     }
                 })
-            }, 1000)
+                resolve()
+            }, 500)
         })
     }
 

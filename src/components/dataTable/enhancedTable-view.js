@@ -8,14 +8,17 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import TableFooter from '@material-ui/core/TableFooter'
 import TablePagination from '@material-ui/core/TablePagination'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import EnhancedTableHead from './components/enhancedTableHead'
 import EnhancedTableToolbar from './components/enhancedTableToolbar'
 import TablePaginationActions from './components/tablePaginationActions'
 import EnhancedTableRow from './components/enhancedTableRow'
+import TableNewRow from './components/tableNewRow'
 
 const useStyles = makeStyles(theme => ({
     root: {
       width: '100%',
+      position: 'relative',
       marginTop: theme.spacing(3),
     },
     paper: {
@@ -27,6 +30,16 @@ const useStyles = makeStyles(theme => ({
     },
     tableWrapper: {
       overflowX: 'auto',
+    },
+    loading: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        zIndex: 100,
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
     }
 }));
 
@@ -47,13 +60,16 @@ export default function EnhancedTable(props) {
         handleRequestSort,
         handleChangePage,
         handleChangeRowsPerPage,
-        handleChangeSelected
+        handleChangeSelected,
     } = props
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar />
+            {isLoading && <div className={classes.loading}><CircularProgress /></div>}
+                <EnhancedTableToolbar
+                    handleChangeSelected={handleChangeSelected}
+                />
                 <div className={classes.tableWrapper}>
                 <Table
                     className={classes.table}
@@ -73,22 +89,28 @@ export default function EnhancedTable(props) {
                         const labelId = `enhanced-table-checkbox-${index}`;
 
                         return (
-                            <EnhancedTableRow
-                                key={index}
-                                row={row}
-                                index={index}
-                                labelId={labelId}
-                                selected={selected}
-                                handleChangeSelected={handleChangeSelected}
-                            />                
+                            <React.Fragment key={index}>
+                                {(selected.action === 'deleting' && selected.id === row._id) ? ( ''
+                                    ) : (selected.action === 'editing' && selected.id === row._id) ? ( ''
+                                        ) : ( 
+                                            <EnhancedTableRow
+                                                key={index}
+                                                row={row}
+                                                labelId={labelId}
+                                                selected={selected}
+                                                handleChangeSelected={handleChangeSelected}
+                                            />                
+                                )}
+                            </React.Fragment>
                         );
-                        })}
-                    {/* {selected.action === 'create' && 
-                        <EnhancedTableRowCreate
-                        handleActionClick={handleActionClick}
-                        handleCreateClick={handleCreateClick}
+                        })
+                    }
+                    {selected.action === 'creating' && 
+                        <TableNewRow
+                            selected={selected}
+                            handleChangeSelected={handleChangeSelected}
                         />
-                    } */}
+                    }
                     {emptyRows > 0 && (
                         <TableRow style={{ height: 54 * emptyRows }}>
                         <TableCell colSpan={headRows.length + 1} />
