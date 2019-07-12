@@ -1,47 +1,76 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Tooltip from '@material-ui/core/Tooltip'
-import IconButton from '@material-ui/core/IconButton'
-import EditIcon from '@material-ui/icons/Edit'
-import DeleteIcon from '@material-ui/icons/Delete'
-import CheckIcon from '@material-ui/icons/Check'
-import CloseIcon from '@material-ui/icons/Close'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import TextField from '@material-ui/core/TextField'
+import TableRowOptions from '../tableRowOptions'
 
-export default function TableRowActions(props) {
-    const { index, row, selected, handleChangeSelected } = props
-    let currentOP = (selected.action === 'deleting') ? 'delete' : (selected.action === 'editing') ? 'edit' : 'create'
+export default function TableRowActions({ row, selected, handleChangeSelected }) {
+    const [values, setValues] = React.useState({ ...row })
+    
+    React.useEffect(() => {
+        setValues({ ...row })
+    }, [row])
+    
+    const handleChange =  event => {
+      setValues({ ...values, [event.target.name]: event.target.value  })
+    }
 
     return (
-        <div style={{display: 'flex'}}>
-            {((selected.action !== 'reading' && selected.id === row._id) || index === -1) ?
-            (
-                <React.Fragment>
-                    <Tooltip title="Guardar">
-                    <IconButton aria-label="Save" onClick={() => handleChangeSelected('saving', row._id, currentOP, row)}>
-                        <CheckIcon />
-                    </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Cancelar">
-                    <IconButton aria-label="cancel" onClick={() => handleChangeSelected(null, '0')}>
-                        <CloseIcon />
-                    </IconButton>
-                    </Tooltip>
-                </React.Fragment>
-            ) : (
-                <React.Fragment>
-                    <Tooltip title="Editar">
-                    <IconButton aria-label="Edit" onClick={() => handleChangeSelected('editing', row._id)}>
-                        <EditIcon />
-                    </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Eliminar">
-                    <IconButton aria-label="Delete" onClick={() => handleChangeSelected('deleting', row._id)}>
-                        <DeleteIcon />
-                    </IconButton>
-                    </Tooltip>
-                </React.Fragment>
-            )}
-        </div>
+        <TableRow
+            tabIndex={-1}
+            style={{height: '57px', transition: 'all 300ms ease 0s'}}
+        >
+            <TableCell padding="none" style={{padding: "0px 5px"}}>
+                <TableRowOptions
+                    row={values}
+                    selected={selected}
+                    handleChangeSelected={handleChangeSelected}
+                />
+            </TableCell>
+            <TableCell>
+                <TextField
+                    id="name"
+                    name="name"
+                    value={values.name || ''}
+                    onChange={handleChange}
+                    placeholder="Nombre"
+                    autoFocus={true}
+                />
+            </TableCell>
+            <TableCell>
+                <TextField
+                    name="description"
+                    value={values.description || ''}
+                    onChange={handleChange}
+                    placeholder="Descripción"
+                />
+            </TableCell>
+            <TableCell>
+                <TextField
+                    name="category"
+                    value={values.category || ''}
+                    onChange={handleChange}
+                    placeholder="Categoría"
+                />
+            </TableCell>
+            <TableCell>
+                <TextField
+                    name="company"
+                    value={values.company || ''}
+                    onChange={handleChange}
+                    placeholder="Marca"
+                />
+            </TableCell>
+            <TableCell>
+                <TextField
+                    name="image"
+                    value={values.image || ''}
+                    onChange={handleChange}
+                    placeholder="Imagen"
+                />
+            </TableCell>
+      </TableRow>
     )
 }
 

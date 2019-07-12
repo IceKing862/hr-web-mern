@@ -4,30 +4,25 @@ import { makeStyles } from '@material-ui/core/styles'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Typography from '@material-ui/core/Typography'
-import TableRowActions from './../tableRowActions/'
-import TableEditRow from './../tableEditRow/'
+import TableRowOptions from '../tableRowOptions'
 
 const useStyles = makeStyles({
-    root: {
-        height: '57px',
-        transition: 'all 300ms ease 0s'
-    },
     text: {
         opacity: 0.2,
     }
 })
 
-export default function EnhancedTableRow(props) {
+export default function EnhancedTableRow({ row, labelId, selected, handleChangeSelected }) {
     const classes = useStyles()
-    const { row, labelId, selected, handleChangeSelected } = props
 
     return (
       <TableRow
         tabIndex={-1}
-        className={`${classes.root} ${(selected.action !== 'reading' && selected.id !== row._id) && classes.text}`}
+        style={{ height: '57px', transition: 'all 300ms ease 0s' }}
+        className={`${(selected.action !== 'reading' && selected.id !== row._id) && classes.text}`}
       >
         <TableCell padding="none" style={{padding: "0px 5px"}}>
-          <TableRowActions
+          <TableRowOptions
             row={row}
             selected={selected}
             handleChangeSelected={handleChangeSelected}
@@ -40,8 +35,6 @@ export default function EnhancedTableRow(props) {
                 ¿Esta seguro de Eliminar este registro?
                 </Typography>
             </TableCell>
-        ) : (selected.action === 'editing' && selected.id === row._id) ? (
-            <TableEditRow row={row} />
         ) : (
             <React.Fragment>
                 <TableCell component="th" id={labelId} scope="row">

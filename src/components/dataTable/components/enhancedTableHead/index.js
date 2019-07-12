@@ -1,1 +1,1 @@
-export { default } from './enhancedTableHead-view'
+export { default } from './EnhancedTableHead-view'

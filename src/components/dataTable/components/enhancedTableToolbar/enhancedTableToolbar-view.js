@@ -1,42 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/AddBox'
 import FilterListIcon from '@material-ui/icons/FilterList'
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
-    },
-    highlight:
-        theme.palette.type === 'light'
-            ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-            }
-            : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark,
-            },
-    spacer: {
-        flex: '1 1 100%',
-    },
-    actions: {
-        color: theme.palette.text.secondary,
-    },
-    title: {
-        flex: '0 0 auto',
-    },
-}));
+import useStyles from './EnhancedTableToolbar-styles'
   
-export default function EnhancedTableToolbar(props) {
+export default function EnhancedTableToolbar({ handleChangeSelected }) {
     const classes = useStyles();
-    const { handleChangeSelected } = props
 
     return (
         <Toolbar
@@ -48,7 +22,7 @@ export default function EnhancedTableToolbar(props) {
             </Typography>
         </div>
         <div className={classes.spacer} />
-        <div className={classes.actions}>
+        <div>
             <div style={{display: 'flex'}}>
             <Tooltip title="Nuevo">
             <IconButton aria-label="New" onClick={() => handleChangeSelected('creating')}>
@@ -65,3 +39,7 @@ export default function EnhancedTableToolbar(props) {
         </Toolbar>
     );
 };
+
+EnhancedTableToolbar.propTypes = {
+    handleChangeSelected: PropTypes.func.isRequired,
+}

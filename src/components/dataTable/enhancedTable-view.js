@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -9,39 +8,12 @@ import TableCell from '@material-ui/core/TableCell'
 import TableFooter from '@material-ui/core/TableFooter'
 import TablePagination from '@material-ui/core/TablePagination'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import useStyles from './enhancedTable-styles'
 import EnhancedTableHead from './components/enhancedTableHead'
 import EnhancedTableToolbar from './components/enhancedTableToolbar'
 import TablePaginationActions from './components/tablePaginationActions'
 import EnhancedTableRow from './components/enhancedTableRow'
-import TableNewRow from './components/tableNewRow'
-
-const useStyles = makeStyles(theme => ({
-    root: {
-      width: '100%',
-      position: 'relative',
-      marginTop: theme.spacing(3),
-    },
-    paper: {
-      width: '100%',
-      marginBottom: theme.spacing(2),
-    },
-    table: {
-      minWidth: 750,
-    },
-    tableWrapper: {
-      overflowX: 'auto',
-    },
-    loading: {
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        zIndex: 100,
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    }
-}));
+import TableEditRow from './components/tableRowActions'
 
 export default function EnhancedTable(props) {
     const classes = useStyles();
@@ -73,7 +45,7 @@ export default function EnhancedTable(props) {
                 <div className={classes.tableWrapper}>
                 <Table
                     className={classes.table}
-                    aria-labelledby="tableTitle"
+                    aria-labelledby="H&#38;R"
                     size='small'
                 >
                     <EnhancedTableHead
@@ -90,23 +62,28 @@ export default function EnhancedTable(props) {
 
                         return (
                             <React.Fragment key={index}>
-                                {(selected.action === 'deleting' && selected.id === row._id) ? ( ''
-                                    ) : (selected.action === 'editing' && selected.id === row._id) ? ( ''
-                                        ) : ( 
-                                            <EnhancedTableRow
-                                                key={index}
-                                                row={row}
-                                                labelId={labelId}
-                                                selected={selected}
-                                                handleChangeSelected={handleChangeSelected}
-                                            />                
+                                {(selected.action === 'editing' && selected.id === row._id) ? (
+                                    <TableEditRow
+                                        row={row}
+                                        selected={selected}
+                                        handleChangeSelected={handleChangeSelected}
+                                    />
+                                ) : ( 
+                                    <EnhancedTableRow
+                                        key={index}
+                                        row={row}
+                                        labelId={labelId}
+                                        selected={selected}
+                                        handleChangeSelected={handleChangeSelected}
+                                    />                
                                 )}
                             </React.Fragment>
                         );
                         })
                     }
                     {selected.action === 'creating' && 
-                        <TableNewRow
+                        <TableEditRow
+                            row={{}}
                             selected={selected}
                             handleChangeSelected={handleChangeSelected}
                         />

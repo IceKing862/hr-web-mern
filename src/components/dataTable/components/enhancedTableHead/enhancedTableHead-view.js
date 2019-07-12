@@ -5,8 +5,7 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 
-export default function EnhancedTableHead(props) {
-    const { headRows, order, orderBy, onRequestSort } = props;
+export default function EnhancedTableHead({ headRows, order, orderBy, onRequestSort }) {
     const createSortHandler = property => event => {
         onRequestSort(event, property);
     };

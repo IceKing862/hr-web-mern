@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import EnhancedTable from './enhancedTable-view'
 import { withSnackbar } from 'notistack';
-import { create, read, remove, update } from './util/actions/actions'
+import { create, read, remove, update } from './../../util/actions/actions'
 import auth from '../../util/auth/auth-helper'
 
 const headRows = [
