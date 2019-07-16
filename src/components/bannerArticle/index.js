@@ -1,0 +1,1 @@
+export { default } from './BannerArticle-view'

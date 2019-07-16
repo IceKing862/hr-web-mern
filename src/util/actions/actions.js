@@ -9,7 +9,9 @@ const create = (product, token) => {
         body: JSON.stringify(product)
     }).then(response => {
         return response.json()
-    }).catch(err => console.log(err))
+    }).catch(err => {
+        return { error: err }
+    })
 }
 
 const read = () => {
@@ -17,7 +19,9 @@ const read = () => {
         method: 'GET'
     }).then(response => {
         return response.json()
-    }).catch(err => console.log(err))
+    }).catch(err => {
+        return { error: err }
+    })
 }
 
 const readOne = (productId) => {
@@ -25,7 +29,9 @@ const readOne = (productId) => {
         method: 'GET'
     }).then(response => {
         return response.json()
-    }).catch(err => console.log(err))
+    }).catch(err => {
+        return { error: err }
+    })
 }
 
 const update = (product, token, productId) => {
