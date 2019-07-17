@@ -11,7 +11,7 @@ export default function Article() {
         <Container>
             <Row>
                 <Col xs={12} sm={10} md={8} lg={6} className={classes.root}>
-                    <h1 className="display-4 w-100">
+                    <h1 className={`display-4 ${classes.title}`}>
                         Contáctanos
                     </h1>
                     <hr className="my-4 bg-light w-100" />

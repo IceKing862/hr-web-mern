@@ -6,18 +6,38 @@ import Signin from './../../routes/signin'
 import Dashboard from './../../routes/dashboard'
 import PrivateDashboard from './../../routes/dashboard/PrivateRoute'
 import FloatinButton from './../floatingButton'
+import Navbar from './../navbar'
+import Footer from './../footer'
 
 function App() {
+  const [scroll, setScroll] = React.useState(false)
+
+  const handlescroll = () => {
+    if(window.scrollY) {
+        setScroll(true)
+    } else {
+        setScroll(false)
+    }
+  }
+
+  React.useEffect(() => {
+    window.onscroll = () => {
+      handlescroll()
+    }
+  }, [])
+
   return (
     <SnackbarProvider maxSnack={3}>
 
       <div className="App">
+        <Navbar scroll={scroll} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/signin" component={Signin} />
           <PrivateDashboard path="/dashboard" component={Dashboard} />
         </Switch>
-        <FloatinButton />
+        <Footer />
+        <FloatinButton scroll={scroll} />
       </div>
     </SnackbarProvider>
   );

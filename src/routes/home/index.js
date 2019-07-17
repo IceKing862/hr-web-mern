@@ -55,77 +55,20 @@ const data = {
     ],
     suppliers: [
         {
-            imgSrc: "./imgs/proveedores/samsung_logo_PNG14.png",
-            height: "48px",
+            imgSrc: "./static/suppliers/samsung.png",
             title: "Samsung"
         }, {
-            imgSrc: "./imgs/proveedores/staedtler.png",
-            height: "60px",
-            title: "Staedtler" 
-        }, {
-            imgSrc: "./imgs/proveedores/Canon_logo_vector.png",
-            height: "60px",
-            title: "Canon"
-        }, {
-            imgSrc: "./imgs/proveedores/Genius,_KYE_Systems_Corp_logo.PNG",
-            height: "48px",
-            title: "Genius"
-        }, {
-            imgSrc: "./imgs/proveedores/HP_logo_630x630.png",
-            height: "60px",
-            title: "HP"
-        }, {
-            imgSrc: "./imgs/proveedores/artline1logo._V302579097_.png",
-            height: "48px",
-            title: "Artline"
-        }, {
-            imgSrc: "./imgs/proveedores/bic.png",
-            height: "48px",
-            title: "Bic"
-        }, {
-            imgSrc: "./imgs/proveedores/epson-2-logo-png-transparent.png",
-            height: "48px",
-            title: "Epson"
-        }, {
-            imgSrc: "./imgs/proveedores/tide.png",
-            height: "60px",
-            title: "Tide"
-        }, {
-            imgSrc: "./imgs/proveedores/kingston-logo-png-4.png",
-            height: "48px",
-            title: "Kingstone"
-        }, {
-            imgSrc: "./imgs/proveedores/nestle.jpg",
-            height: "48px",
-            title: "Nestle"
-        }, {
-            imgSrc: "./imgs/proveedores/mccormick-2-logo-png-transparent.png",
-            height: "60px",
-            title: "McCormick"
-        }, {
-            imgSrc: "./imgs/proveedores/quaker.jpg",
-            height: "60px",
-            title: "Quaker"
-        }, {
-            imgSrc: "./imgs/proveedores/casio.png",
-            height: "48px",
+            imgSrc: "./static/suppliers/casio.png",
             title: "Casio"
         }, {
-            imgSrc: "./imgs/proveedores/1280px-Coca-Cola_logo.svg.png",
-            height: "60px",
-            title: "Coca Cola"
+            imgSrc: "./static/suppliers/hp.png",
+            title: "HP"
         }, {
-            imgSrc: "./imgs/proveedores/tosh.png",
-            height: "60px",
-            title: "Tosh"
+            imgSrc: "./static/suppliers/epson.png",
+            title: "Epson"
         }, {
-            imgSrc: "./imgs/proveedores/Splenda_Logo.svg.png",
-            height: "60px",
-            title: "Splenda"
-        }, {
-            imgSrc: "./imgs/proveedores/lysol.jpg",
-            height: "48px",
-            title: "Lysol"
+            imgSrc: "./static/suppliers/canon.png",
+            title: "Canon"
         }
     ]
 }
@@ -148,12 +91,6 @@ export default () => {
                 title='Opiniones'
                 text='Entérate de lo que nuestros clientes piensan de nosotros'
                 type='testimonial'
-            />
-            <List
-                data={data.suppliers}
-                title='Nuestros Proveedores'
-                text='Estas son algunas de las marcas de nuestros productos'
-                type='suppliers'
             />
         </React.Fragment>
     )
