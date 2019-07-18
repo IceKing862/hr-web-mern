@@ -5,7 +5,7 @@ import Home from './../../routes/home'
 import Signin from './../../routes/signin'
 import Dashboard from './../../routes/dashboard'
 import PrivateDashboard from './../../routes/dashboard/PrivateRoute'
-import FloatinButton from './../floatingButton'
+import FloatingButton from './../floatingButton'
 import Navbar from './../navbar'
 import Footer from './../footer'
 
@@ -37,7 +37,7 @@ function App() {
           <PrivateDashboard path="/dashboard" component={Dashboard} />
         </Switch>
         <Footer />
-        <FloatinButton scroll={scroll} />
+        <FloatingButton scroll={scroll} />
       </div>
     </SnackbarProvider>
   );

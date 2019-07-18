@@ -2,6 +2,7 @@ import React from 'react'
 import Banner from './../../components/banner'
 import List from './../../components/list'
 import Article from './../../components/bannerArticle'
+import ButtonGroup from './../../components/buttonGroup'
 
 const data = {
     testimonials: [
@@ -84,7 +85,9 @@ export default () => {
                 type='card'
             />
             <Banner image="url('./static/media/slide1.jpg')">
-                <Article />
+                <Article>
+                    <ButtonGroup />
+                </Article>
             </Banner>
             <List
                 data={data.testimonials}

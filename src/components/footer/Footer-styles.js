@@ -23,8 +23,20 @@ export default makeStyles({
     },
     link: {
         color: '#002f6c',
+        transition: '0.3s',
         '&:hover': {
             color: '#0077c2',
+            textDecoration: 'none'
+        }
+    },
+    button:{
+        padding: '0.5rem 1rem',
+        border: '3px solid white',
+        color: 'white',
+        transition: '0.3s',
+        '&:hover': {
+            border: '1px solid rgba(255, 255, 255, 1)',
+            color: 'white',
             textDecoration: 'none'
         }
     },
@@ -32,6 +44,7 @@ export default makeStyles({
         fontSize: 28,
         marginRight: 10,
         color: '#002f6c',
+        transition: '0.3s',
         '&:hover': {
             color: '#0077c2',
             textDecoration: 'none'

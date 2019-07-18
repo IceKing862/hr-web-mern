@@ -10,6 +10,7 @@ export default makeStyles({
         height: 66,
         borderBottom: '1px solid #009688',
         backgroundColor: 'white',
+        transition: 'all 0.5s ease-in-out',
     },
     link: {
         color: '#eeeeee',

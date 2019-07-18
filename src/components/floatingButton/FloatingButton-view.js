@@ -1,25 +1,24 @@
 import React from 'react'
-import { Link, animateScroll } from 'react-scroll'
+import { withRouter } from 'react-router-dom'
+import Link from './../link'
 import useStyles from './FloatingButton-styles'
 
-export default function FloatingButton({ scroll }) {
+function FloatingButton({ location, scroll }) {
     const classes = useStyles()
-
-    const handleClick = () => {
-        animateScroll.scrollToTop()
-    }
 
     return (
         <React.Fragment>
             {scroll &&
                 <Link
-                    to=""
-                    className={classes.root}
-                    onClick={() => handleClick()}
+                    path={location.pathname}  
                 >
-                    <i className="fas fa-chevron-up"></i>
+                    <div className={classes.root}>
+                        <i className="fas fa-chevron-up"></i>
+                    </div>
                 </Link>
             }
         </React.Fragment>
     )
 }
+
+export default withRouter(FloatingButton)

@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import useStyles from './BannerArticle-styles'
 
-export default function Article() {
+export default function Article({ children }) {
     const classes = useStyles()
 
     return (
@@ -18,6 +18,7 @@ export default function Article() {
                     <p className="lead pb-4">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     </p>
+                    {children || ''}
                 </Col>
             </Row>
         </Container>

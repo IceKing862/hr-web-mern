@@ -1,5 +1,5 @@
 import React from 'react'
-import DataTable from './../../components/datatable'
+import DataTable from './../../components/dataTable'
 
 export default () => {
     return (
