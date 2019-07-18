@@ -4,10 +4,15 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from './../card'
 import Testimonial from './../testimonial'
+import Example from './../examples'
 
 export default function List({ data, title, text, type }) {
+    const styles = {
+        backgroundColor: type === 'avatar' && '#c62828'
+    }
+    
     return (
-        <Container className="py-5 my-5">
+        <Container fluid={type === 'avatar'} className="py-5 my-5" style={styles}>
             <Row className="text-center d-flex justify-content-center">
                 <Col xs={12} className="mb-5">
                     <h2 className="display-4 mb-2">
@@ -22,9 +27,11 @@ export default function List({ data, title, text, type }) {
                         <Card key={index} {...item} />
                     ) : ((type === 'testimonial') ? (
                         <Testimonial key={index} {...item} />
+                    ) : ((type === 'example') ? (
+                        <Example key={index} {...item} />
                     ) : (
                         ''
-                    ))
+                    )))
                 )}
             </Row>
         </Container>

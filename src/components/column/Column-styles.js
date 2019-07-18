@@ -7,6 +7,7 @@ export default makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        textAlign: 'center',
         color: 'white',
         padding: '3rem',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',

@@ -71,7 +71,17 @@ const data = {
             imgSrc: "./static/suppliers/canon.png",
             title: "Canon"
         }
-    ]
+    ],
+    buttons: {
+        left: {
+            path: "/catalogo",
+            text: "Catalogo",
+        },
+        right: {
+            path: "/contactanos",
+            text: "Contactos",
+        }
+    }
 }
 
 export default () => {
@@ -86,7 +96,7 @@ export default () => {
             />
             <Banner image="url('./static/media/slide1.jpg')">
                 <Column>
-                    <ButtonGroup />
+                    <ButtonGroup {...data.buttons} />
                 </Column>
             </Banner>
             <List

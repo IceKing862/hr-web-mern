@@ -9,7 +9,7 @@ const useStyles = makeStyles({
         backgroundSize: 'cover',
         backgroundPosition: '50% 50%',
         backgroundAttachment: 'fixed',
-        minHeight: '100vh'
+        minHeight: '100vh',
     },
 })
 

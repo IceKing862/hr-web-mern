@@ -2,11 +2,13 @@ import { makeStyles } from '@material-ui/core/styles'
 
 export default makeStyles({
     root: {
+        zIndex: 900,
         height: 66,
         backgroundColor: 'transparent',
         transition: 'all 0.5s ease-in-out',
     },
     rootScroll: {
+        zIndex: 900,
         height: 66,
         borderBottom: '1px solid #009688',
         backgroundColor: 'white',

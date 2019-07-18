@@ -11,7 +11,7 @@ export default function Card({ title, text, imgSrc }) {
     return (
         <Col className={classes.root} xs={12} md={6} lg={4}>
             <Fade>
-                <Link to="/productos" className={classes.link}>
+                <Link to="/catalogo" className={classes.link}>
                     <div className={classes.imgBox}>
                         <img src={imgSrc} alt={title} />
                     </div>

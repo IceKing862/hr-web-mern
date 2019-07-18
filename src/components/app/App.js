@@ -9,10 +9,12 @@ import Dashboard from './../../routes/dashboard'
 import PrivateDashboard from './../../routes/dashboard/PrivateRoute'
 import FloatingButton from './../floatingButton'
 import Navbar from './../navbar'
+import Menu from './../menu'
 import Footer from './../footer'
 
 function App() {
   const [scroll, setScroll] = React.useState(false)
+  const [active, setActive] = React.useState(false)
 
   const handlescroll = () => {
     if(window.scrollY) {
@@ -20,6 +22,9 @@ function App() {
     } else {
         setScroll(false)
     }
+  }
+  const handleChangeActive = () => {
+    setActive(!active)
   }
 
   React.useEffect(() => {
@@ -32,7 +37,14 @@ function App() {
     <SnackbarProvider maxSnack={3}>
 
       <div className="App">
-        <Navbar scroll={scroll} />
+        <Navbar
+          scroll={scroll}
+          handleChangeActive={handleChangeActive}
+        />
+        <Menu
+          active={active}
+          handleChangeActive={handleChangeActive}
+        />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/catalogo" component={Catalog} />

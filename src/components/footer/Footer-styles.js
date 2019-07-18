@@ -35,7 +35,7 @@ export default makeStyles({
         color: 'white',
         transition: '0.3s',
         '&:hover': {
-            border: '1px solid rgba(255, 255, 255, 1)',
+            border: '4px solid rgba(255, 255, 255, 1)',
             color: 'white',
             textDecoration: 'none'
         }
@@ -49,5 +49,16 @@ export default makeStyles({
             color: '#0077c2',
             textDecoration: 'none'
         }
-    }
+    },
+    follow: {
+        color: '#6a1b9a',
+        fontWeight: 'bolder',
+        transition: '0.3s',
+        '&:hover': {
+            color: '#38006b',
+        }
+    },
+    slash: {
+        color: '#8e0000',
+    },
 })

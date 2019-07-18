@@ -1,1 +1,1 @@
-export { default } from './enhancedTableToolbar-view'
+export { default } from './EnhancedTableToolbar-view'

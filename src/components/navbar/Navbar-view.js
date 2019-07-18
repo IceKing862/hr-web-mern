@@ -1,11 +1,11 @@
 import React from 'react'
+import useStyles from './Navbar-styles'
 import { Fade } from 'react-reveal'
 import { withRouter } from 'react-router-dom'
 import Navbar from 'react-bootstrap/Navbar'
-import useStyles from './Navbar-styles'
 import Link from './../link'
 
-function Nav({ scroll, location }) {
+function Nav({ scroll, handleChangeActive, location }) {
     const classes = useStyles()
 
     return (
@@ -13,7 +13,7 @@ function Nav({ scroll, location }) {
             {(location.pathname === '/signin' || location.pathname === '/dashboard') ? '' : (
                 <Navbar className={`${scroll ? classes.rootScroll : classes.root }`} fixed="top" expand="">
                     <Navbar.Brand>
-                        <Link path="/" custom={`${scroll ? classes.linkScroll : classes.link}`}>
+                        <Link path="/" styles={`${scroll ? classes.linkScroll : classes.link}`}>
                             <Fade>
         
                                 {scroll ? (
@@ -28,7 +28,10 @@ function Nav({ scroll, location }) {
                             </Fade>
                         </Link>
                     </Navbar.Brand>
-                    <Navbar.Toggle className={`${(scroll || location.pathname === '/quienes-somos') ? classes.toggleScroll : classes.toggle}`}>
+                    <Navbar.Toggle
+                        className={`${(scroll || location.pathname === '/quienes-somos') ? classes.toggleScroll : classes.toggle}`}
+                        onClick={handleChangeActive}
+                    >
                         <i className="fas fa-bars"></i>
                     </Navbar.Toggle>
                 </Navbar>
