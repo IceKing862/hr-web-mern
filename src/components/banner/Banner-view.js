@@ -5,16 +5,15 @@ import Container from 'react-bootstrap/Container'
 const useStyles = makeStyles({
     root: {
         overflow: 'hidden',
-        backgroundColor: '#cfe8fc',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: '50% 50%',
         backgroundAttachment: 'fixed',
-        height: '100vh'
+        minHeight: '100vh'
     },
 })
 
-export default function Banner({ image, children }) {
+export default function Banner({ image = '', children }) {
     const classes = useStyles()
 
     return (

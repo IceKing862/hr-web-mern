@@ -28,7 +28,7 @@ function Nav({ scroll, location }) {
                             </Fade>
                         </Link>
                     </Navbar.Brand>
-                    <Navbar.Toggle className={`${scroll ? classes.toggleScroll : classes.toggle}`}>
+                    <Navbar.Toggle className={`${(scroll || location.pathname === '/quienes-somos') ? classes.toggleScroll : classes.toggle}`}>
                         <i className="fas fa-bars"></i>
                     </Navbar.Toggle>
                 </Navbar>

@@ -1,7 +1,7 @@
 import React from 'react'
 import Banner from './../../components/banner'
 import List from './../../components/list'
-import Article from './../../components/bannerArticle'
+import Column from '../../components/column'
 import ButtonGroup from './../../components/buttonGroup'
 
 const data = {
@@ -85,9 +85,9 @@ export default () => {
                 type='card'
             />
             <Banner image="url('./static/media/slide1.jpg')">
-                <Article>
+                <Column>
                     <ButtonGroup />
-                </Article>
+                </Column>
             </Banner>
             <List
                 data={data.testimonials}

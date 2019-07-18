@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack'
 import Home from './../../routes/home'
+import About from './../../routes/about'
 import Signin from './../../routes/signin'
 import Dashboard from './../../routes/dashboard'
 import PrivateDashboard from './../../routes/dashboard/PrivateRoute'
@@ -33,6 +34,7 @@ function App() {
         <Navbar scroll={scroll} />
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/quienes-somos" component={About} />
           <Route path="/signin" component={Signin} />
           <PrivateDashboard path="/dashboard" component={Dashboard} />
         </Switch>

@@ -2,7 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import useStyles from './BannerArticle-styles'
+import useStyles from './Column-styles'
 
 export default function Article({ children }) {
     const classes = useStyles()

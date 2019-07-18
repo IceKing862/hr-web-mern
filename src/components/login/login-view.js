@@ -11,31 +11,42 @@ const Login = ({ username, password, handleClick, handleChange }) => {
     const classes = useStyles()
 
     return (
-        <Card className={classes.card}>
-            <CardContent className={classes.content}>
-                <TextField
-                    id="username" 
-                    label="Email" 
-                    className={classes.textField} 
-                    type="text" 
-                    value={username} 
-                    onChange={handleChange('username')}
-                    margin="normal"
-                    variant="outlined"
-                />
-                <TextField className={classes.textField} id="password" type="password" label="Contraseña" value={password} onChange={handleChange('password')} />
-            </CardContent>
-            <CardActions>
-                <Fab
-                    variant="extended"
-                    size="medium"
-                    className={classes.button}
-                    onClick={() => handleClick()}
-                >
-                    Iniciar sesión
-                </Fab>
-            </CardActions>
-        </Card>
+        <div className={classes.root}>
+            <Card className={classes.card}>
+                <CardContent className={classes.content}>
+                    <TextField
+                        id="username" 
+                        label="Email" 
+                        className={classes.textField} 
+                        type="text" 
+                        value={username} 
+                        onChange={handleChange('username')}
+                        margin="normal"
+                        variant="outlined"
+                    />
+                    <TextField
+                        id="password"
+                        label="Contraseña"
+                        className={classes.textField}
+                        type="password"
+                        value={password}
+                        onChange={handleChange('password')}
+                        margin="normal"
+                        variant="outlined"
+                    />
+                </CardContent>
+                <CardActions className={classes.content}>
+                    <Fab
+                        variant="extended"
+                        size="medium"
+                        color="secondary"
+                        onClick={() => handleClick()}
+                    >
+                        Iniciar sesión
+                    </Fab>
+                </CardActions>
+            </Card>
+        </div>
     )
 }
 
