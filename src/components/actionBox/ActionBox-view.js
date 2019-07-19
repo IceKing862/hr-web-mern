@@ -12,7 +12,7 @@ export default function ActionBox({ data, filter }) {
         <React.Fragment>
             <Container fluid={true} className={classes.root}>
                 <div className={classes.searchBox}>
-                    <p className={classes.title}>Busca los artticulos por nombre</p>
+                    <p className={classes.title}>Busca los articulos por nombre</p>
                     <InputGroup className={classes.inputBox}>
                         <FormControl className={classes.input} />
                         <InputGroup.Append>

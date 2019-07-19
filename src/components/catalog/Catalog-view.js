@@ -32,7 +32,7 @@ export default function Catalog() {
         <React.Fragment>
             <ActionBox data={data}  ></ActionBox>
             {loading ? (
-                <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+                <div className="w-100 d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
                     <CircularProgress />
                 </div>
             ) : (
