@@ -18,7 +18,7 @@ function Footer({ location }) {
 
     return (
         <React.Fragment>
-        {(location.pathname === '/signin' || location.pathname === '/dashboard') ? '' : (
+        {(location.pathname === '/login' || location.pathname === '/dashboard') ? '' : (
             <React.Fragment>
 
                 <Container fluid={true} className={classes.root}>

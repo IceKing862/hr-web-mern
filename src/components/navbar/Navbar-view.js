@@ -10,7 +10,7 @@ function Nav({ scroll, handleChangeActive, location }) {
 
     return (
         <React.Fragment>
-            {(location.pathname === '/signin' || location.pathname === '/dashboard') ? '' : (
+            {(location.pathname === '/login' || location.pathname === '/dashboard') ? '' : (
                 <Navbar className={`${scroll ? classes.rootScroll : classes.root }`} fixed="top" expand="">
                     <Navbar.Brand>
                         <Link path="/" styles={`${(scroll || location.pathname === '/contactanos') ? classes.linkScroll : classes.link}`}>

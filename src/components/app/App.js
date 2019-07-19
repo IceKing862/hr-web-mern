@@ -52,7 +52,7 @@ function App() {
           <Route path="/catalogo" component={Catalog} />
           <Route path="/quienes-somos" component={About} />
           <Route path="/contactanos" component={Contact} />
-          <Route path="/signin" component={Signin} />
+          <Route path="/login" component={Signin} />
           <PrivateDashboard path="/dashboard" component={Dashboard} />
         </Switch>
         <Footer />

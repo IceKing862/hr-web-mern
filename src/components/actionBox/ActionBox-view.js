@@ -22,17 +22,17 @@ export default function ActionBox({ data, filter }) {
                 </div>
             </Container>
             <Container className={classes.searchBox}>
-                <h2 className="h1 mt-5 mb-2">
+                {/* <h2 className="h1 mt-5 mb-2">
                     Categorías
-                </h2>
-                <div className="w-100 d-flex justify-content-center align-items-center">
+                </h2> */}
+                {/* <div className="w-100 d-flex justify-content-center align-items-center">
                     <Button className="d-inline" variant="link"></Button>
                     <Button className="d-inline" variant="link"></Button>
                     <Button className="d-inline" variant="link"></Button>
                     <Button className="d-inline" variant="link"></Button>
                     <Button className="d-inline" variant="link"></Button>
                     <Button className="d-inline" variant="link"></Button>
-                </div>
+                </div> */}
                 <p className="text-left mt-5 w-100">
                     {data.length} {' resultados'}
                 </p>
