@@ -31,6 +31,7 @@ function App() {
     window.onscroll = () => {
       handlescroll()
     }
+    handlescroll()
   }, [])
 
   return (

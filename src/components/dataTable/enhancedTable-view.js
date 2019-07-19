@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell'
 import TableFooter from '@material-ui/core/TableFooter'
 import TablePagination from '@material-ui/core/TablePagination'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import useStyles from './enhancedTable-styles'
+import useStyles from './EnhancedTable-styles'
 import EnhancedTableHead from './components/enhancedTableHead'
 import EnhancedTableToolbar from './components/enhancedTableToolbar'
 import TablePaginationActions from './components/tablePaginationActions'

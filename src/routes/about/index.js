@@ -44,7 +44,30 @@ const data = {
             name: '',
             imgSrc: './static/examples/office6.jpg',
         },
-    ]
+    ],
+    avatars: [{
+        left: {
+            name: 'Juan Perez',
+            job: 'Marketing',
+            imgSrc1: './static/avatars/guy1-1.jpg',
+            imgSrc2: './static/avatars/guy1-2.jpg',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        },
+        mid: {
+            name: 'María Juana',
+            job: 'Desarrollador',
+            imgSrc1: './static/avatars/guy3-1.jpg',
+            imgSrc2: './static/avatars/guy3-2.jpg',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        },
+        right: {
+            name: 'Pedro Pablo',
+            job: 'Ventas',
+            imgSrc1: './static/avatars/guy2-1.jpg',
+            imgSrc2: './static/avatars/guy2-2.jpg',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        },
+    }]
 }
 
 export default () => {
@@ -52,9 +75,9 @@ export default () => {
         <React.Fragment>
             {data.about.map((item, index) => <Banner key={index}><DobleColumn {...item} /></Banner>)}
             <List
-                data={data.examples}
-                title='Nuestro Trabajo'
-                text='Estos son algunos de nuestros diseños'
+                data={data.avatars}
+                title='¿Quienes somos?'
+                text='Conoce a nuestro equipo de trabajo'
                 type='avatar'
             />
             <List
