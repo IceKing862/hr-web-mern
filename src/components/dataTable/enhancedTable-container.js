@@ -51,7 +51,7 @@ class Table extends Component {
         order: 'asc',
         orderBy: 'name',
         page: 0,
-        rowsPerPage: 5,
+        rowsPerPage: 10,
         isLoading: false,
         selected: { action: 'reading', id: '' }
     }
