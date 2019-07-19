@@ -4,6 +4,7 @@ import { SnackbarProvider } from 'notistack'
 import Home from './../../routes/home'
 import Catalog from './../../routes/catalog'
 import About from './../../routes/about'
+import Contact from './../../routes/contact'
 import Signin from './../../routes/signin'
 import Dashboard from './../../routes/dashboard'
 import PrivateDashboard from './../../routes/dashboard/PrivateRoute'
@@ -50,6 +51,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/catalogo" component={Catalog} />
           <Route path="/quienes-somos" component={About} />
+          <Route path="/contactanos" component={Contact} />
           <Route path="/signin" component={Signin} />
           <PrivateDashboard path="/dashboard" component={Dashboard} />
         </Switch>

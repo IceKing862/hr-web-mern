@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { read } from './../../util/actions/actions'
 import CatalogItem from './../catalogItem'
+import ActionBox from './../actionBox'
 
 export default function Catalog() {
     const [loading, setLoading] = React.useState(false)
@@ -29,15 +30,13 @@ export default function Catalog() {
 
     return (
         <React.Fragment>
+            <ActionBox data={data}  ></ActionBox>
             {loading ? (
                 <div className="w-100 h-100 d-flex justify-content-center align-items-center">
                     <CircularProgress />
                 </div>
             ) : (
                 <Container>
-                    <Row>
-                        <p className="lead text-muted">{data.length} Resultados</p>
-                    </Row>
                     <Row className="pb-5 mb-5">
                         {data.map((item, index) =>
                             <CatalogItem key={index} {...item} />

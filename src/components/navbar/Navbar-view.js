@@ -13,7 +13,7 @@ function Nav({ scroll, handleChangeActive, location }) {
             {(location.pathname === '/signin' || location.pathname === '/dashboard') ? '' : (
                 <Navbar className={`${scroll ? classes.rootScroll : classes.root }`} fixed="top" expand="">
                     <Navbar.Brand>
-                        <Link path="/" styles={`${scroll ? classes.linkScroll : classes.link}`}>
+                        <Link path="/" styles={`${(scroll || location.pathname === '/contactanos') ? classes.linkScroll : classes.link}`}>
                             <Fade>
         
                                 {scroll ? (
@@ -29,7 +29,7 @@ function Nav({ scroll, handleChangeActive, location }) {
                         </Link>
                     </Navbar.Brand>
                     <Navbar.Toggle
-                        className={`${(scroll || location.pathname === '/quienes-somos') ? classes.toggleScroll : classes.toggle}`}
+                        className={`${(scroll || location.pathname === '/quienes-somos' || location.pathname === '/contactanos') ? classes.toggleScroll : classes.toggle}`}
                         onClick={handleChangeActive}
                     >
                         <i className="fas fa-bars"></i>
