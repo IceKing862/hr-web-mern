@@ -30,14 +30,14 @@ export default function Catalog() {
 
     return (
         <React.Fragment>
-            <ActionBox data={data}  ></ActionBox>
+            <ActionBox />
             {loading ? (
                 <div className="w-100 d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
                     <CircularProgress />
                 </div>
             ) : (
-                <Container>
-                    <Row className="pb-5 mb-5">
+                <Container fluid={true}>
+                    <Row className="px-md-5 d-flex">
                         {data.map((item, index) =>
                             <CatalogItem key={index} {...item} />
                         )}

@@ -4,7 +4,9 @@ import Catalog from './../../components/catalog'
 export default () => {
     return(
         <React.Fragment>
-            <Catalog />
+            <div  style={{ backgroundColor: '#ebebeb' }}>
+                <Catalog />
+            </div>
         </React.Fragment>
     )
 }
